@@ -1,0 +1,12 @@
+VARIABLES
+
+a = turn
+b = credit
+c = population
+d = food
+e = pool_level
+f = food_price
+g = fry_price
+h = expand_price
+
+FUNCTIONS
