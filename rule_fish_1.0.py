@@ -1,22 +1,3 @@
-from RestrictedPython import compile_restricted, Eval, Guards, safe_globals, utility_builtins
-
-def make_policy():
-    p_globals = {**safe_globals, **utility_builtins}
-    p_globals['__builtins__']['__metaclass__'] = type
-    p_globals['__builtins__']['__name__'] = type
-
-    p_globals['__builtins__']['min'] = min
-    p_globals['__builtins__']['max'] = max
-
-    p_globals['_getattr_'] = Guards.safer_getattr
-    p_globals['_write_'] = Guards.full_write_guard
-    p_globals['_getiter_'] = Eval.default_guarded_getiter
-    p_globals['_getitem_'] = Eval.default_guarded_getitem
-    p_globals['_iter_unpack_sequence_'] = Guards.guarded_iter_unpack_sequence
-
-    return p_globals
-
-source = '''
 def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
     cc=lambda x:(100*x**2)
     l=0
@@ -38,26 +19,33 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
             d=max(0,d-v)
             c=max(c+w-x,0)
         return c-u-y*f
+    def eg(c,i,j):
+        ii=gg(c,i)
+        jj=gg(c,j)
+        if abs(i-j)<p*0.01:
+            return [ii,i]
+        elif jj>ii:
+            return eg(c,max((j+i)//2,i+1),j)
+        else:
+            return eg(c,i,min((j+i)//2,j-1))
     def ee(i,j):
         ii=0
         fi=0
         jj=0
         fj=0
         z=p*s
-        t=d//1+(b+c-i-1)//f
-        if z < t:
+        if z < d//1+(b+j-i-1)//f:
             ii = gg(i,z)
             fi = z
-        else:
-            ii = gg(i,t)
-            fi = t
-        t=d//1+(b+c-j-1)//f
-        if z < t:
             jj = gg(j,z)
             fj = z
         else:
-            jj = gg(j,t)
-            fj = t 
+            res=eg(i,0,d//1+(b+c-i-1)//f)
+            ii=res[0]
+            fi=res[1]
+            res=eg(j,0,d//1+(b+c-j-1)//f)
+            jj=res[0]
+            fj=res[0]
         if abs(i-j)<p*0.01:
             return [i, fi]
         if jj>ii:
@@ -67,7 +55,9 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
     if not c:
         n=b/g/1.5
         b=b-g*n
-        m=(b-1)//f
+        res=eg(n,0,min(p*5,(b-1)//f))
+        q=res[0]
+        m=res[1]
     else:
         if d < p*2:
             s=s+0.05
@@ -90,11 +80,3 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
                 if b>h*cc(e+3)*1.05:
                     o=3
     return [l,m,n,o], [], {'s':s}
-
-
-    '''
-
-loc={}
-byte_code = compile_restricted(source, '<inline>', 'exec')
-exec(byte_code, make_policy(),loc)
-loc['fish'](1,50,100,200,1,0.1,0.1,0.7,*[],**{'s':1.5})

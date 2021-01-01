@@ -5,6 +5,7 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
     n=0
     o=0
     p=cc(e)
+    s = 1.4 if not a else kwargs['s']
     def gg(c,d):
         u=c
         y=0
@@ -18,34 +19,27 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
             d=max(0,d-v)
             c=max(c+w-x,0)
         return c-u-y*f
-    def eg(c,i,j):
-        ii=gg(c,i)
-        jj=gg(c,j)
-        if i>=j:
-            return [ii,i]
-        elif jj>ii:
-            return eg(c,max((j+i)//2,i+1),j)
-        else:
-            return eg(c,i,min((j+i)//2,j-1))
     def ee(i,j):
         ii=0
         fi=0
         jj=0
         fj=0
-        z=p*(1.2+e*0.12)
-        if z < d//1+(b+j-i-1)//f:
+        z=p*s
+        t=d//1+(b+c-i-1)//f
+        if z < t:
             ii = gg(i,z)
             fi = z
+        else:
+            ii = gg(i,t)
+            fi = t
+        t=d//1+(b+c-j-1)//f
+        if z < t:
             jj = gg(j,z)
             fj = z
         else:
-            res=eg(i,0,d//1+(b+j-i-1)//f)
-            ii=res[0]
-            fi=res[1]
-            res=eg(j,0,d//1+(b+j-i-1)//f)
-            jj=res[0]
-            fj=res[0]
-        if i>=j:
+            jj = gg(j,t)
+            fj = t 
+        if abs(i-j)<p*0.01:
             return [i, fi]
         if jj>ii:
             return ee(max((j+i)//2,i+1),j)
@@ -54,10 +48,12 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
     if not c:
         n=b/g/1.5
         b=b-g*n
-        res=eg(n,0,min(p*5,(b-1)//f))
-        q=res[0]
-        m=res[1]
+        m=(b-1)//f
     else:
+        if d < p*2:
+            s=s+0.05
+        elif d > p*2.1:
+            s=s-0.04
         res=ee(0,c//1)
         q=res[0]
         r=res[1]
@@ -66,12 +62,13 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
         b=b+l-n*m
         if a<140:
             if e < 6:
-                if b>h*cc(e+1)*1.5:
+                if b>h*cc(e+1)*1.2:
                     o=1
             elif e < 16:
-                if b>h*cc(e+2)*1.2:
+                if b>h*cc(e+2)*1.1:
                     o=2
             else:
-                if b>h*cc(e+3)*1.1:
+                if b>h*cc(e+3)*1.05:
                     o=3
-    return [l,m,n,o], [], {}
+    return [l,m,n,o], [], {'s':s}
+
