@@ -10,6 +10,7 @@ g = fry_price
 h = expand_price
 
 s = food capacity multiplier
+aa = expected consumption rate
 
 
 FUNCTIONS

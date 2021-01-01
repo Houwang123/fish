@@ -4,14 +4,13 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
     m=0
     n=0
     o=0
-    aa=0.02
     p=cc(e)
-    s = 1.5 if not a else kwargs['s']
+    s = 1.4 if not a else kwargs['s']
     def gg(c,d):
         u=c
         y=0
         for i in range(60):
-            v=c*aa*min([d/p,1])
+            v=c*0.02*min([d/p,1])
             if d<=0:
                 v=0
             y=y+v
@@ -51,12 +50,6 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
         b=b-g*n
         m=(b-1)//f
     else:
-        pr=kwargs['pr']
-        ac=kwargs['ac']
-        if gg(pr[1]-ac[0],pr[2]+ac[1]) > c-(pr[1]-ac[0])+(d-(pr[2]+ac[1]))*f:
-            aa=aa-0.002
-        else:
-            aa=aa+0.002
         if d < p*2:
             s=s+0.05
         elif d > p*2.1:
@@ -66,10 +59,16 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
         r=res[1]
         l=max(0,c-q)
         m=max(0,r-d)
-        b=b+l-f*m
-        u = e//2+1
-        if a<155:
-            if b>h*cc(e+u)+min((s*cc(e+u)-r),r*0.5)*f:
-                o=u
-                m=m+(b-h*cc(e+u)-1)//f
-    return [l,m,n,o], [], {'s':s,"ac":[l,m,n,o],"pr":[a,c,d,e]}
+        b=b+l-n*m
+        if a<140:
+            if e < 6:
+                if b>h*cc(e+1)*1.2:
+                    o=1
+            elif e < 16:
+                if b>h*cc(e+2)*1.1:
+                    o=2
+            else:
+                if b>h*cc(e+3)*1.05:
+                    o=3
+    return [l,m,n,o], [], {'s':s}
+
