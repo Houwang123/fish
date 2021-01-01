@@ -11,4 +11,7 @@ h = expand_price
 
 s = food capacity multiplier
 
+
 FUNCTIONS
+ee = binary search for best num fish
+gg = estimate reward for next turn
