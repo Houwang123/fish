@@ -4,9 +4,9 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
     m=0
     n=0
     o=0
-    aa=0.02
+    aa=0.02 if not a else kwargs['aa']
     p=cc(e)
-    s = 1.5 if not a else kwargs['s']
+    s=1.5 if not a else kwargs['s']
     def gg(c,d):
         u=c
         y=0
@@ -16,7 +16,7 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
                 v=0
             y=y+v
             w=v*(1-c/p)
-            x=max(0,c*0.001*1.5*(2-d/p))
+            x=max(0,c*0.001*(2-d/p))
             d=max(0,d-v)
             c=max(c+w-x,0)
         return c-u-y*f
@@ -54,22 +54,22 @@ def fish(a,b,c,d,e,f,g,h,*args,**kwargs):
         pr=kwargs['pr']
         ac=kwargs['ac']
         if gg(pr[1]-ac[0],pr[2]+ac[1]) > c-(pr[1]-ac[0])+(d-(pr[2]+ac[1]))*f:
-            aa=aa-0.002
+            aa=max(0.02*2/3,aa-0.0015)
         else:
-            aa=aa+0.002
+            aa=min(0.02*1.5,aa+0.0015)
         if d < p*2:
             s=s+0.05
         elif d > p*2.1:
-            s=s-0.04
+            s=s-0.06
         res=ee(0,c//1)
         q=res[0]
         r=res[1]
         l=max(0,c-q)
         m=max(0,r-d)
         b=b+l-f*m
-        u = e//2+1
-        if a<155:
-            if b>h*cc(e+u)+min((s*cc(e+u)-r),r*0.5)*f:
+        u=e//1.85+1
+        if a<140 or (c-(pr[1]-ac[0])+(d-(pr[2]+ac[1])) * f) * (163-a) * 1.6 > h*cc(e+u):
+            if b>h*cc(e+u)+min((s*cc(e+u)-r),r*0.4)*f:
                 o=u
                 m=m+(b-h*cc(e+u)-1)//f
-    return [l,m,n,o], [], {'s':s,"ac":[l,m,n,o],"pr":[a,c,d,e]}
+    return [l,m,n,o], [], {'s':s,"ac":[l,m,n,o],"pr":[a,c,d,e],'aa':aa}
